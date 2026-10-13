@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Data, models and outputs
+FATURA2.zip
+data-raw/
+data/
+models/
+output/
+*.safetensors
+*.log
+.ruff_cache/
