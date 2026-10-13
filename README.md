@@ -19,6 +19,7 @@ A fine-tuned Qwen3.5-9B adapter is published in the [releases](../../releases). 
 ├── 06_api_wrapper.py             # Upload-an-image API in front of vLLM
 ├── 07_client_example.py          # Client example for API calls
 ├── merge_adapter.py              # Merge a LoRA / DoRA adapter into its base model
+├── assets/example_receipt.jpg    # Receipt photo used in the example below
 └── results/
     ├── RESULTS.md                # Full comparison
     └── *.tsv                     # Score tables
@@ -79,6 +80,43 @@ curl -X POST http://localhost:58080/extract -F "image=@receipt.jpg"
 ```
 
 The response has the keys `merchant_name`, `address`, `phone`, `date`, `time`, `order_number`, `items` (a list of `name`, `quantity`, `price`), `subtotal`, `tax`, `total` and `payment_method`.
+
+### Example
+
+A phone photo of a faded thermal receipt, half of it in shadow, and the unedited response of the released model (`--mode receipt`, 3.2 s on one RTX 5090). Every field matches the paper, including the misspelt "BORDING" that is printed on it.
+
+<table>
+<tr>
+<td width="42%"><img src="assets/example_receipt.jpg" alt="Receipt photo"></td>
+<td>
+
+```json
+{
+  "merchant_name": "SKYLINE NEWS & GIFT",
+  "address": "SFO TERMINAL 1\nBORDING AREA B\nSAN FRANCISCO, CA 94128",
+  "phone": "650.821.6822",
+  "date": "2/20/2026",
+  "time": "9:50:01PM",
+  "order_number": "* 2 1413990*",
+  "items": [
+    {
+      "name": "COK SMARTWTR A\nSMARTWATER ALKALINE 25",
+      "quantity": "1",
+      "price": "7.99"
+    }
+  ],
+  "subtotal": "7.99",
+  "tax": "0.00",
+  "total": "7.99",
+  "payment_method": "MASTER"
+}
+```
+
+</td>
+</tr>
+</table>
+
+The model read the original 3024x4032 photo; the copy shown here is cropped and scaled down. Keys are listed in reading order.
 
 ## Quick Start
 
